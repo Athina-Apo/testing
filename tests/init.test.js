@@ -48,6 +48,22 @@ test("POST authors/ creates a new author and returns valid JSON content-type", a
     t.is(response.body.name, "New Author"); // Πρέπει να επιστρέφει το όνομα σωστά
 });
 
+test("GET authors/{authorId} endpoint with Bad Request (invalid authorId)", async (t) => {
+    const { body, statusCode } = await t.context.got.delete("authors/invalid_authorId", {
+        throwHttpErrors: false,
+    });
+
+    t.is(statusCode, 400);
+});
+
+test("DELETE authors/{authorId} endpoint with Correct Request", async (t) => {
+    const { body, statusCode } = await t.context.got.get("authors/0", {
+        throwHttpErrors: false,
+    });
+
+    t.is(statusCode, 200);
+});
+
 Για να μπορεί η put να εξετάσει περισσότερα πράγματα κανουμε την εξής αλλαγη 
 exports.authorsAuthorIdPUT = function(body,authorId) {
   return new Promise(function(resolve, reject) {
